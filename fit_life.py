@@ -79,10 +79,9 @@ water_l = round(water_ml / ML_PER_LITER, 1)
 
 # Вывод отчета
 print("\n")
-print(
-    f"Отчет для пользователя: {user_name}, "
-    f"{user_age} {get_age_word(user_age)}\n"
-)
+
+print(f"Отчет для пользователя: {user_name}, ", end="")
+print(f"{user_age} {get_age_word(user_age)}\n")
 
 print(f"Ваш индекс массы тела: {bmi:.1f}")
 print(f"Рекомендуемая норма воды: {water_l:.1f} л в день\n")
