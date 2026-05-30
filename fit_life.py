@@ -31,44 +31,66 @@ def get_age_word(age):
     return "лет"
 
 
+def check_range(value, min_value, max_value):
+    """Проверяет, входит ли значение в допустимый диапазон."""
+    return min_value <= value <= max_value
+
+
+def float_ru(str):
+    """локализация точки float."""
+    return float(str.replace(",", "."))
+
+
+def read_checked_value(
+    prompt,
+    value_type,
+    min_value,
+    max_value,
+    error_message
+):
+    """Запрашивает значение, преобразует его и проверяет диапазон."""
+    while True:
+        try:
+            value = value_type(input(prompt))
+
+            if check_range(value, min_value, max_value):
+                return value
+
+        except ValueError:
+            pass
+
+        print(error_message)
+
+
 while True:
     user_name = input("Как вас зовут? ").strip()
     if user_name:
         break
     print("Ошибка. Попробуйте еще раз")
 
-while True:
-    try:
-        user_age = int(input("Сколько вам лет? "))
-    except ValueError:
-        print("Ошибка. Попробуйте еще раз.")
-    else:
-        if AGE_MIN <= user_age <= AGE_MAX:
-            break
-        else:
-            print("Ошибка. Введите корректный возраст.")
+user_age = read_checked_value(
+    "Сколько вам лет? ",
+    int,
+    AGE_MIN,
+    AGE_MAX,
+    "Ошибка. Введите корректный возраст."
+)
 
-while True:
-    try:
-        user_weight = float(input("Введите свой вес в килограммах: "))
-    except ValueError:
-        print("Ошибка. Попробуйте еще раз.")
-    else:
-        if WEIGHT_MIN_KG <= user_weight <= WEIGHT_MAX_KG:
-            break
-        else:
-            print("Ошибка. Введите корректный вес.")
+user_weight = read_checked_value(
+    "Введите свой вес в килограммах: ",
+    float_ru,
+    WEIGHT_MIN_KG,
+    WEIGHT_MAX_KG,
+    "Ошибка. Введите корректный вес."
+)
 
-while True:
-    try:
-        user_height = float(input("Введите рост в метрах, например 1.75: "))
-    except ValueError:
-        print("Ошибка попробуйте еще раз.")
-    else:
-        if HEIGHT_MIN_M <= user_height <= HEIGHT_MAX_M:
-            break
-        else:
-            print("Ошибка. Введите корректный рост.")
+user_height = read_checked_value(
+    "Введите свой рост в метрах: ",
+    float_ru,
+    HEIGHT_MIN_M,
+    HEIGHT_MAX_M,
+    "Ошибка. Введите корректный рост."
+)
 
 # расчет индекса массы тела
 bmi = round(user_weight / (user_height ** 2), 1)
